@@ -82,7 +82,7 @@ def open_file():
 
         status_label = tk.Label(axis_selection_window, text="", bg='#2e2e2e', fg='white', font=('Helvetica', 12))
 
-        tk.Label(axis_selection_window, text="Please, select an axis to correct:", bg='#2e2e2e', fg='white', font=('Helvetica', 14)).pack(pady=10)
+        tk.Label(axis_selection_window, text="Select an axis to correct:", bg='#2e2e2e', fg='white', font=('Helvetica', 14)).pack(pady=10)
         
         button_frame = tk.Frame(axis_selection_window, bg='#2e2e2e')
         button_frame.pack(pady=10)
