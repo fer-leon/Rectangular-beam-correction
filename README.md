@@ -1,4 +1,4 @@
-# Rectangular Beam Correction
+# Laser Cutter Rectangular Beam Correction
 
 Most blue laser engravers have a rectangular beam geometry, making the cut more effective in one direction than the other. This program modifies an existing GCODE file to correct the cutting speed on the less powerful axis, ensuring more consistent results without requiring repeated passes.
 
