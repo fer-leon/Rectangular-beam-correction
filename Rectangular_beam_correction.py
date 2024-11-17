@@ -71,10 +71,16 @@ def open_file():
         with open(file_path, 'r') as file:
             gcode = file.read()
         
-        # Create a new window to select the axis
+        # Create a new window to select the axis and input the factor
         axis_selection_window = tk.Toplevel(root)
-        axis_selection_window.title("Select Axis")
+        axis_selection_window.title("Select Axis and Factor")
         axis_selection_window.configure(bg='#2e2e2e')
+
+        tk.Label(axis_selection_window, text="Enter correction factor:", bg='#2e2e2e', fg='white', font=('Helvetica', 14)).pack(pady=10)
+        factor_entry = tk.Entry(axis_selection_window, font=('Helvetica', 12))
+        factor_entry.pack(pady=10)
+
+        status_label = tk.Label(axis_selection_window, text="", bg='#2e2e2e', fg='white', font=('Helvetica', 12))
 
         tk.Label(axis_selection_window, text="Please, select an axis to correct:", bg='#2e2e2e', fg='white', font=('Helvetica', 14)).pack(pady=10)
         
@@ -84,13 +90,18 @@ def open_file():
         tk.Button(button_frame, text="X", command=lambda: select_axis('X'), bg='#4a4a4a', fg='white', font=('Helvetica', 12), padx=20, pady=10).pack(side=tk.LEFT, padx=20)
         tk.Button(button_frame, text="Y", command=lambda: select_axis('Y'), bg='#4a4a4a', fg='white', font=('Helvetica', 12), padx=20, pady=10).pack(side=tk.RIGHT, padx=20)
 
-        status_label = tk.Label(axis_selection_window, text="", bg='#2e2e2e', fg='white', font=('Helvetica', 12))
-        status_label.pack(pady=10)
+
 
         def select_axis(axis):
+            try:
+                factor = float(factor_entry.get())
+            except ValueError:
+                status_label.config(text="Invalid factor. Please enter a number.")
+                return
+
             status_label.config(text="Performing corrections...")
             axis_selection_window.update_idletasks()
-            adjusted_gcode = adjust_feed_rate(gcode, axis=axis)
+            adjusted_gcode = adjust_feed_rate(gcode, factor=factor, axis=axis)
             status_label.config(text="")
             axis_selection_window.destroy()
             print(adjusted_gcode)  # Print the adjusted GCODE to the console
