@@ -2,6 +2,7 @@ import re
 import tkinter as tk
 from tkinter import filedialog, simpledialog
 
+# Function to adjust the feed rate in the GCODE based on the specified factor and axis
 def adjust_feed_rate(gcode, factor=0.5, axis='Y'):
     adjusted_gcode = []
     current_feed_rate = None
@@ -55,6 +56,7 @@ def adjust_feed_rate(gcode, factor=0.5, axis='Y'):
 
     return '\n'.join(adjusted_gcode)
 
+# Function to center a Tkinter window on the screen
 def center_window(window):
     window.update_idletasks()
     width = window.winfo_width()
@@ -63,6 +65,7 @@ def center_window(window):
     y = (window.winfo_screenheight() // 2) - (height // 2)
     window.geometry(f'{width}x{height}+{x}+{y}')
 
+# Function to open a file dialog and read the selected GCODE file
 def open_file():
     root = tk.Tk()
     root.withdraw()  # Hide the root window
@@ -71,16 +74,17 @@ def open_file():
         with open(file_path, 'r') as file:
             gcode = file.read()
         
-        # Create a new window to select the axis and input the factor
         axis_selection_window = tk.Toplevel(root)
-        axis_selection_window.title("Select Axis and Factor")
+        axis_selection_window.title("Laser Beam Correction")
         axis_selection_window.configure(bg='#2e2e2e')
+        axis_selection_window.minsize(400, 300)
 
         tk.Label(axis_selection_window, text="Enter correction factor:", bg='#2e2e2e', fg='white', font=('Helvetica', 14)).pack(pady=10)
         factor_entry = tk.Entry(axis_selection_window, font=('Helvetica', 12))
         factor_entry.pack(pady=10)
 
         status_label = tk.Label(axis_selection_window, text="", bg='#2e2e2e', fg='white', font=('Helvetica', 12))
+        status_label.pack()
 
         tk.Label(axis_selection_window, text="Select an axis to correct:", bg='#2e2e2e', fg='white', font=('Helvetica', 14)).pack(pady=10)
         
@@ -90,8 +94,7 @@ def open_file():
         tk.Button(button_frame, text="X", command=lambda: select_axis('X'), bg='#4a4a4a', fg='white', font=('Helvetica', 12), padx=20, pady=10).pack(side=tk.LEFT, padx=20)
         tk.Button(button_frame, text="Y", command=lambda: select_axis('Y'), bg='#4a4a4a', fg='white', font=('Helvetica', 12), padx=20, pady=10).pack(side=tk.RIGHT, padx=20)
 
-
-
+        # Function to handle axis selection and perform GCODE adjustments
         def select_axis(axis):
             try:
                 factor = float(factor_entry.get())
@@ -110,6 +113,7 @@ def open_file():
         center_window(axis_selection_window)
         root.wait_window(axis_selection_window)
 
+# Function to save the adjusted GCODE to a file
 def save_file(adjusted_gcode):
     root = tk.Tk()
     root.withdraw()  # Hide the root window
