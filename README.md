@@ -15,8 +15,6 @@ Most blue laser engravers have a rectangular beam geometry, making the cut more 
 ## Requirements
 
 - **Python 3.x**
-- **tkinter library** (usually included with Python)
-- **re library** (usually included with Python)
 
 ---
 
